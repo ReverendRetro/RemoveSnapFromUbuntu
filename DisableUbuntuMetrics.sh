@@ -16,6 +16,45 @@ echo ""
 
 sleep 1
 
+# Stop services if running
+echo "Disabling telemetry services"
+sleep 1
+sudo systemctl stop apport.service
+sudo systemctl disable apport.service
+sudo systemctl stop whoopsie.service
+sudo systemctl disable whoopsie.service
+echo ""
+
+sleep 1
+
+# Uninstall telemetry services
+echo "Uninstall Telemetry services"
+sleep 1
+sudo apt remove apport whoopsie ubuntu-report -y
+echo ""
+
+sleep 1
+
+# Setup disable files
+echo "Creating files to disable metrics and telemetry"
+sleep 1
+sudo touch /etc/apt/preferences.d/no-ubuntu-report.pref
+sudo touch /etc/apt/preferences.d/no-whoopsie.pref
+sudo touch /etc/apt/preferences.d/no-apport.pref
+echo ""
+
+sleep 1
+
+# Fill preference files
+echo "Populating preference files for apt"
+sleep 1
+printf "Package: ubuntu-report\nPin: release a=*\nPin-Priority: -10" >> /etc/apt/preferences.d/no-ubuntu-report.pref
+printf "Package: whoopsie\nPin: release a=*\nPin-Priority: -10" >> /etc/apt/preferences.d/no-whoopsie.pref
+printf "Package: apport\nPin: release a=*\nPin-Priority: -10" >> /etc/apt/preferences.d/no-apport.pref 
+echo ""
+
+sleep 1
+
 # Disable ubuntu-report
 echo "Disabling ubuntu-report"
 sleep 1
@@ -60,6 +99,12 @@ echo "Disabled whoopsie crash reports"
 echo ""
 
 sleep 1
+
+#cleanup old files
+echo "Apt cleanup of unneeded files"
+sleep 1
+sudo apt auto-remove
+echo""
 
 echo "Telemetry and metrics collection disabled"
 echo ""
