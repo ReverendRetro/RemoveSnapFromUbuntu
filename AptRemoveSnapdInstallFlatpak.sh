@@ -11,7 +11,9 @@ echo ""
 # Uninstall all installed snaps
 echo "Uninstalling snap packages"
 echo ""
-sudo snap remove $(snap list | awk '!/^Name|^core/ {print $1}')
+snap list | awk '!/^Name|^core/ {print $1}' | xargs -n 1 snap remove
+snap remove core22
+snap remove bare
 echo ""
 sleep 1
 
@@ -50,6 +52,12 @@ sleep 1
 sudo apt install flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+echo ""
+sleep 1
+
+# Another auto-remove as some things can be left over
+echo "Removing left-overs from apt"
+sudo apt autoremove
 echo ""
 sleep 1
 
