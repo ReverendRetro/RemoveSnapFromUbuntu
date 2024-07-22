@@ -7,10 +7,7 @@
 echo "Removing existing Telemetry files to cleanly disable"
 sleep 1
 echo ""
-sudo rm -rf /etc/default/no-report
-sudo rm -rf /etc/popularity-contest
-sudo rm -rf /etc/default/apport
-sudo rm -rf /etc/default/whoopsie
+sudo rm -rf /etc/popularity-contest /etc/default/{no-report,apport,whoopsie}
 echo "Removed existing Telemetry files"
 echo ""
 
@@ -19,10 +16,7 @@ sleep 1
 # Stop services if running
 echo "Disabling telemetry services"
 sleep 1
-sudo systemctl stop apport.service
-sudo systemctl disable apport.service
-sudo systemctl stop whoopsie.service
-sudo systemctl disable whoopsie.service
+sudo systemctl disable --now apport.service whoopsie.service
 echo ""
 
 sleep 1
@@ -38,9 +32,7 @@ sleep 1
 # Setup disable files
 echo "Creating files to disable metrics and telemetry"
 sleep 1
-sudo touch /etc/apt/preferences.d/no-ubuntu-report.pref
-sudo touch /etc/apt/preferences.d/no-whoopsie.pref
-sudo touch /etc/apt/preferences.d/no-apport.pref
+sudo touch /etc/apt/preferences.d/{no-ubuntu-report,no-whoopsie,no-apport}.pref
 echo ""
 
 sleep 1
