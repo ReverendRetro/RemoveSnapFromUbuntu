@@ -11,9 +11,9 @@ echo ""
 # Uninstall all installed snaps
 echo "Uninstalling snap packages"
 echo ""
-snap list | awk '!/^Name|^core/ {print $1}' | xargs -n 1 snap remove
-snap remove core22
-snap remove bare
+sudo snap list | awk '!/^Name|^core/ {print $1}' | xargs -n 1 sudo snap remove
+sudo snap remove core22
+sudo snap remove bare
 echo ""
 sleep 1
 
